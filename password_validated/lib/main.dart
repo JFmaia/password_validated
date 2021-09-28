@@ -27,6 +27,22 @@ class PasswordValidationPage extends StatefulWidget {
 class _PasswordValidationPageState extends State<PasswordValidationPage> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.white,
+        title: Center(
+          child: Text(
+            "Crie uma senha para você",
+            style: TextStyle(
+              color: Colors.black,
+            ),
+          ),
+        ),
+      ),
+      body: Container(
+        color: Colors.white,
+      ),
+    );
   }
 }
