@@ -26,6 +26,8 @@ class PasswordValidationPage extends StatefulWidget {
 }
 
 class _PasswordValidationPageState extends State<PasswordValidationPage> {
+  //Variavel responsavel por quarda o valor que indica se a senha estar visivel ou não.
+  bool _isVisible = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,11 +63,19 @@ class _PasswordValidationPageState extends State<PasswordValidationPage> {
             SizedBox(height: 30),
             //Texto de entrada.
             TextField(
+              obscureText: !_isVisible,
               decoration: InputDecoration(
                   //Icone de visualizar a senha.
                   suffixIcon: IconButton(
-                    icon: Icon(Icons.visibility),
-                    onPressed: () {},
+                    icon: _isVisible
+                        ? Icon(Icons.visibility)
+                        : Icon(Icons.visibility_off),
+                    //Mudando o estado do icone de visualização da senha.
+                    onPressed: () {
+                      setState(() {
+                        _isVisible = !_isVisible;
+                      });
+                    },
                   ),
                   border: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.black),
