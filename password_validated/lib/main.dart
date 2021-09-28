@@ -32,6 +32,18 @@ class _PasswordValidationPageState extends State<PasswordValidationPage> {
   bool _isPasswordCharacters = false;
   //Variavel responsavel por quarda o valor que indica se a senha tem um numero.
   bool _isPasswordNumber = false;
+  // Função responsavel por fazer a logica de verificação da senha.
+  void _onPasswordChanged(String password) {
+    setState(() {
+      final numericRegex = RegExp(r'[0-9]');
+
+      _isPasswordCharacters = false;
+      if (password.length >= 8) _isPasswordCharacters = true;
+
+      _isPasswordNumber = false;
+      if (numericRegex.hasMatch(password)) _isPasswordNumber = true;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,6 +80,7 @@ class _PasswordValidationPageState extends State<PasswordValidationPage> {
             SizedBox(height: 30),
             //Texto de entrada.
             TextField(
+              onChanged: (password) => _onPasswordChanged(password),
               obscureText: !_isVisible,
               decoration: InputDecoration(
                 //Icone de visualizar a senha.
@@ -113,8 +126,15 @@ class _PasswordValidationPageState extends State<PasswordValidationPage> {
                   width: 20,
                   height: 20,
                   decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey.shade400),
-                    borderRadius: BorderRadius.circular(5),
+                    color: _isPasswordCharacters
+                        ? Colors.green
+                        : Colors.transparent,
+                    border: _isPasswordCharacters
+                        ? Border.all(color: Colors.transparent)
+                        : Border.all(color: Colors.grey.shade400),
+                    borderRadius: _isPasswordCharacters
+                        ? BorderRadius.circular(10)
+                        : BorderRadius.circular(5),
                   ),
                   child: Center(
                     child: Icon(
@@ -125,7 +145,7 @@ class _PasswordValidationPageState extends State<PasswordValidationPage> {
                   ),
                 ),
                 SizedBox(width: 10),
-                Text("Contains at least 8 characters"),
+                Text("Contém pelo menos 8 caracteres"),
               ],
             ),
             SizedBox(height: 10),
@@ -136,8 +156,14 @@ class _PasswordValidationPageState extends State<PasswordValidationPage> {
                   width: 20,
                   height: 20,
                   decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey.shade400),
-                    borderRadius: BorderRadius.circular(5),
+                    color:
+                        _isPasswordNumber ? Colors.green : Colors.transparent,
+                    border: _isPasswordNumber
+                        ? Border.all(color: Colors.transparent)
+                        : Border.all(color: Colors.grey.shade400),
+                    borderRadius: _isPasswordNumber
+                        ? BorderRadius.circular(10)
+                        : BorderRadius.circular(5),
                   ),
                   child: Center(
                     child: Icon(
@@ -148,11 +174,13 @@ class _PasswordValidationPageState extends State<PasswordValidationPage> {
                   ),
                 ),
                 SizedBox(width: 10),
-                Text("Contains at least 1 number"),
+                Text("Contém pelo menos 1 número"),
               ],
             ),
             SizedBox(height: 50),
             MaterialButton(
+              height: 40,
+              minWidth: double.infinity,
               onPressed: () {},
               color: Colors.black,
               child: Text(
